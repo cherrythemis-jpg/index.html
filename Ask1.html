@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>မေးခွန်းလေး</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    background: linear-gradient(135deg, #2d0a31, #1a0a2e);
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slide {
+    position: absolute;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 40px 25px;
+    background: rgba(255,182,217,0.08);
+    border: 1px solid rgba(255,107,157,0.3);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 60px rgba(255,107,157,0.3);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    display: none;
+}
+.slide.active { opacity: 1; display: block; }
+.big-heart { font-size: 5em; animation: beat 1.5s infinite; margin-bottom: 20px; }
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+.question {
+    font-size: 1.6em;
+    color: #ff6b9d;
+    font-weight: bold;
+    line-height: 1.8;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8);
+    margin-bottom: 25px;
+}
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin: 8px;
+    transition: transform 0.2s;
+}
+.btn:active { transform: scale(0.95); }
+.btn-yes {
+    background: linear-gradient(90deg, #ff6b9d, #c56cf0);
+    color: white;
+    box-shadow: 0 5px 20px rgba(197,108,240,0.4);
+}
+.btn-no {
+    background: rgba(255,255,255,0.1);
+    color: #aaa;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.emoji-show {
+    font-size: 3.5em;
+    margin: 15px 0;
+}
+.pop { animation: pop 0.5s ease; }
+@keyframes pop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+.counter-text {
+    color: #996688;
+    font-size: 0.85em;
+    margin-top: 15px;
+    letter-spacing: 2px;
+}
+.stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
+.star { position:absolute; background:white; border-radius:50%; animation: twinkle 4s infinite; }
+@keyframes twinkle {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+.final {
+    font-size: 1.6em;
+    color: #ff6b9d;
+    font-weight: bold;
+    line-height: 1.8;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8);
+}
+.hands {
+    font-size: 5em;
+    margin: 20px 0;
+    animation: float 2s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<div class="slide active" id="slide1">
+<div class="big-heart">💜</div>
+<div class="question">မင်း ငါ့ကို ချစ်လား?</div>
+<button class="btn btn-yes" onclick="yesAnswer()">ချစ်တယ် 💕</button>
+<button class="btn btn-no" onclick="noAnswer()">မချစ်ဘူး</button>
+</div>
+
+<div class="slide" id="slideNo">
+<div class="emoji-show" id="emojiShow">😢</div>
+<div class="question" id="noQuestion">မချစ်ဘူးလား? 🥺</div>
+<div class="counter-text" id="counterText">မချစ်ဘူး 1 ခါ နှိပ်ပြီး</div>
+<button class="btn btn-no" onclick="noAnswer()">မချစ်ဘူး</button>
+<button class="btn btn-yes" onclick="yesAnswer()">ချစ်တယ် 💜</button>
+</div>
+
+<div class="slide" id="slideYes">
+<div class="hands">🤝</div>
+<div class="final">
+ကျေးဇူးတင်ပါတယ် 💜<br>
+ဒါဆို ငါတို့ လက်တွဲသွားကြရအောင်
+</div>
+<div style="font-size:1.2em; color:#c56cf0; margin-top:20px;">
+    💕 အတူတူ လျှောက်မယ် 💕
+</div>
+</div>
+
+<script>
+const stars = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 4 + 's';
+    stars.appendChild(star);
+}
+
+let noCount = 0;
+const emojis = ["😢", "💔", "🥺", "😭", "😞", "😔", "😿", "💧", "😩", "😖"];
+const messages = [
+    "မချစ်ဘူးလား? 🥺",
+    "ငါ အရမ်းစိတ်မကောင်းဘူး... 💔",
+    "မချစ်ဘူးလို့ ပြောလို့ရလား? 😢",
+    "ငါ့နှလုံးသား ကွဲသွားပြီ... 💔",
+    "မင်းကို ငါ အရမ်းချစ်တာပဲ... 🥺",
+    "နောက်တစ်ခါ ထပ်ပြောကြည့်... 😭",
+    "ငါ ငိုတော့မယ်နော်... 😢",
+    "မချစ်ဘူးလို့ မပြောပါနဲ့... 💔",
+    "ငါ့ကို သနားပါ... 🥺",
+    "အိုကေ... ချစ်တယ်လို့ ပြောပါတော့ 💜"
+];
+
+function noAnswer() {
+    noCount++;
+    
+    document.getElementById('slide1').classList.remove('active');
+    document.getElementById('slideNo').classList.add('active');
+    
+    const emojiIndex = (noCount - 1) % emojis.length;
+    
+    const emojiShow = document.getElementById('emojiShow');
+    emojiShow.textContent = emojis[emojiIndex];
+    emojiShow.classList.remove('pop');
+    void emojiShow.offsetWidth;
+    emojiShow.classList.add('pop');
+    
+    document.getElementById('noQuestion').textContent = messages[emojiIndex];
+    document.getElementById('counterText').textContent = `မချစ်ဘူး ${noCount} ခါ နှိပ်ပြီး`;
+    
+    if (noCount >= 10) {
+        setTimeout(() => {
+            yesAnswer();
+        }, 1200);
+    }
+}
+
+function yesAnswer() {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.getElementById('slideYes').classList.add('active');
+}
+</script>
+</body>
+</html>
