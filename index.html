@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You</title>
+<title>မေးခွန်းလေး</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -32,38 +32,55 @@ body {
     display: none;
 }
 .slide.active { opacity: 1; display: block; }
-.emoji {
-    font-size: 5em;
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
+.big-heart { font-size: 6em; animation: beat 1.5s infinite; margin-bottom: 20px; }
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
 }
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-}
-p { font-size: 1.4em; line-height: 2; color: #f0d0e0; }
-.counter { color: #996688; font-size: 0.85em; letter-spacing: 4px; margin-top: 30px; }
-.countdown {
-    font-size: 6em;
+.question {
+    font-size: 1.8em;
     color: #ff6b9d;
     font-weight: bold;
-    animation: pulse 1.2s infinite;
-    text-shadow: 0 0 30px #ff6b9d;
+    line-height: 1.8;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8);
+    margin-bottom: 30px;
 }
-@keyframes pulse {
-    0%,100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.2); opacity: 0.7; }
+.btn {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+}
+.btn:active { transform: scale(0.95); }
+.btn-yes {
+    background: linear-gradient(90deg, #ff6b9d, #c56cf0);
+    color: white;
+    box-shadow: 0 5px 20px rgba(197,108,240,0.4);
+}
+.btn-no {
+    background: rgba(255,255,255,0.1);
+    color: #aaa;
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+}
+.sad {
+    font-size: 4em;
+    margin: 15px 0;
+    animation: shake 0.5s infinite;
+}
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 .stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
 .star { position:absolute; background:white; border-radius:50%; animation: twinkle 4s infinite; }
 @keyframes twinkle {
     0%,100% { opacity: 0.2; }
     50% { opacity: 1; }
-}
-.big-heart { font-size: 7em; animation: beat 1.5s infinite; }
-@keyframes beat {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
 }
 .final {
     font-size: 1.8em;
@@ -78,40 +95,26 @@ p { font-size: 1.4em; line-height: 2; color: #f0d0e0; }
 <div class="stars" id="stars"></div>
 
 <div class="slide active" id="slide1">
-<div class="emoji">💜</div>
-<p>မင်းကို ချစ်ခွင့်ပန်ချင်တယ်</p>
-<div class="counter">01 / 04</div>
+<div class="big-heart">💜</div>
+<div class="question">မင်း ငါ့ကို ချစ်လား?</div>
+<button class="btn btn-yes" onclick="yesAnswer()">ချစ်တယ် 💕</button>
+<button class="btn btn-no" id="noBtn" onclick="noAnswer()">မချစ်ဘူး</button>
 </div>
 
-<div class="slide" id="slide2">
-<div class="emoji">🌸</div>
-<p>မင်းနဲ့တွေ့ကတည်းက<br>ငါ့ဘဝ ပိုလှလာတယ်</p>
-<div class="counter">02 / 04</div>
+<div class="slide" id="slideNo">
+<div class="sad">😢</div>
+<div class="question">မချစ်ဘူးလား? 🥺</div>
+<p style="font-size:1.2em; color:#f0d0e0;">ငါ အရမ်းစိတ်မကောင်းဖြစ်သွားတယ်...</p>
+<div class="sad">💔</div>
+<button class="btn btn-yes" onclick="yesAnswer()">အိုကေ... ချစ်တယ်ပါ 💜</button>
 </div>
 
-<div class="slide" id="slide3">
-<div class="emoji">🥺</div>
-<p>ဒီစကားကို ပြောဖို့<br>ငါ အရမ်းကြောက်ခဲ့တယ်</p>
-<div class="counter">03 / 04</div>
+<div class="slide" id="slideYes">
+<div class="big-heart">💖</div>
+<div class="final">
+ကျေးဇူးတင်ပါတယ် 💜<br>
+ငါလည်း မင်းကို ချစ်တယ်
 </div>
-
-<div class="slide" id="slide4">
-<div class="emoji">💌</div>
-<p>ဒါပေမယ့် အခု<br>ပြောတော့မယ်နော်</p>
-<div class="counter">04 / 04</div>
-</div>
-
-<div class="slide" id="slide5">
-<p style="font-size:1.2em; color:#ff6b9d;">အသင့်ပြင်ထားလိုက်...</p>
-<div class="countdown" id="countdown">3</div>
-</div>
-
-<div class="slide" id="slide6">
-<div class="big-heart">❤️</div>
-<p class="final">
-ငါ မင်းကို ချစ်တယ်<br>
-ချစ်ခွင့်ပန်ပါတယ် 💜
-</p>
 </div>
 
 <script>
@@ -128,40 +131,27 @@ for (let i = 0; i < 120; i++) {
     stars.appendChild(star);
 }
 
-let current = 1;
-const total = 4;
+// "မချစ်ဘူး" ခလုတ်ကို နှိပ်လို့မရအောင် လုပ်ခြင်း
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mouseover', moveButton);
+noBtn.addEventListener('touchstart', moveButton);
+noBtn.addEventListener('click', moveButton);
 
-function next() {
-    if (current <= total) {
-        document.getElementById('slide' + current).classList.remove('active');
-        current++;
-        if (current <= total) {
-            document.getElementById('slide' + current).classList.add('active');
-            setTimeout(next, 3000);
-        } else {
-            document.getElementById('slide5').classList.add('active');
-            countdown();
-        }
-    }
+function moveButton() {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-function countdown() {
-    let c = 3;
-    const el = document.getElementById('countdown');
-    const iv = setInterval(() => {
-        c--;
-        if (c > 0) {
-            el.textContent = c;
-        } else {
-            clearInterval(iv);
-            document.getElementById('slide5').classList.remove('active');
-            document.getElementById('slide6').classList.add('active');
-        }
-    }, 1500);
+function noAnswer() {
+    document.getElementById('slide1').classList.remove('active');
+    document.getElementById('slideNo').classList.add('active');
 }
 
-setTimeout(next, 3000);
+function yesAnswer() {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.getElementById('slideYes').classList.add('active');
+}
 </script>
-
 </body>
 </html>
