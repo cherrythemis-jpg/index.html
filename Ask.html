@@ -21,37 +21,37 @@ body {
     width: 90%;
     max-width: 400px;
     text-align: center;
-    padding: 50px 30px;
+    padding: 40px 25px;
     background: rgba(255,182,217,0.08);
     border: 1px solid rgba(255,107,157,0.3);
     border-radius: 25px;
     backdrop-filter: blur(15px);
     box-shadow: 0 0 60px rgba(255,107,157,0.3);
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: opacity 0.5s ease;
     display: none;
 }
 .slide.active { opacity: 1; display: block; }
-.big-heart { font-size: 6em; animation: beat 1.5s infinite; margin-bottom: 20px; }
+.big-heart { font-size: 5em; animation: beat 1.5s infinite; margin-bottom: 20px; }
 @keyframes beat {
     0%,100% { transform: scale(1); }
     50% { transform: scale(1.15); }
 }
 .question {
-    font-size: 1.8em;
+    font-size: 1.6em;
     color: #ff6b9d;
     font-weight: bold;
     line-height: 1.8;
     text-shadow: 0 0 20px rgba(255,107,157,0.8);
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 .btn {
-    padding: 15px 35px;
+    padding: 15px 30px;
     border: none;
     border-radius: 30px;
     font-size: 1.1em;
     cursor: pointer;
-    margin: 10px;
+    margin: 8px;
     transition: transform 0.2s;
 }
 .btn:active { transform: scale(0.95); }
@@ -65,15 +65,21 @@ body {
     color: #aaa;
     border: 1px solid rgba(255,255,255,0.2);
 }
-.sad {
-    font-size: 4em;
+.emoji-show {
+    font-size: 3.5em;
     margin: 15px 0;
-    animation: shake 0.5s infinite;
 }
-@keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+.pop { animation: pop 0.5s ease; }
+@keyframes pop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+.counter-text {
+    color: #996688;
+    font-size: 0.85em;
+    margin-top: 15px;
+    letter-spacing: 2px;
 }
 .stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
 .star { position:absolute; background:white; border-radius:50%; animation: twinkle 4s infinite; }
@@ -82,26 +88,11 @@ body {
     50% { opacity: 1; }
 }
 .final {
-    font-size: 1.8em;
+    font-size: 1.6em;
     color: #ff6b9d;
     font-weight: bold;
     line-height: 1.8;
     text-shadow: 0 0 20px rgba(255,107,157,0.8);
-}
-.emoji-show {
-    font-size: 3em;
-    margin: 10px 0;
-    animation: pop 0.5s ease;
-}
-@keyframes pop {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); }
-}
-.counter-text {
-    color: #996688;
-    font-size: 0.9em;
-    margin-top: 10px;
 }
 </style>
 </head>
@@ -116,11 +107,11 @@ body {
 </div>
 
 <div class="slide" id="slideNo">
-<div class="sad" id="sadEmoji">😢</div>
+<div class="emoji-show" id="emojiShow">😢</div>
 <div class="question" id="noQuestion">မချစ်ဘူးလား? 🥺</div>
-<div class="emoji-show" id="emojiShow"></div>
-<div class="counter-text" id="counterText"></div>
-<button class="btn btn-yes" onclick="yesAnswer()">အိုကေ... ချစ်တယ်ပါ 💜</button>
+<div class="counter-text" id="counterText">မချစ်ဘူး 1 ခါ နှိပ်ပြီး</div>
+<button class="btn btn-no" onclick="noAnswer()">မချစ်ဘူး</button>
+<button class="btn btn-yes" onclick="yesAnswer()">ချစ်တယ် 💜</button>
 </div>
 
 <div class="slide" id="slideYes">
@@ -163,33 +154,24 @@ const messages = [
 function noAnswer() {
     noCount++;
     
-    // Slideshow ပြောင်း
     document.getElementById('slide1').classList.remove('active');
     document.getElementById('slideNo').classList.add('active');
     
-    // Emoji ပြ
     const emojiIndex = (noCount - 1) % emojis.length;
-    document.getElementById('sadEmoji').textContent = emojis[emojiIndex];
     
-    // Emoji animation အသစ်
     const emojiShow = document.getElementById('emojiShow');
     emojiShow.textContent = emojis[emojiIndex];
-    emojiShow.style.animation = 'none';
-    setTimeout(() => {
-        emojiShow.style.animation = 'pop 0.5s ease';
-    }, 10);
+    emojiShow.classList.remove('pop');
+    void emojiShow.offsetWidth;
+    emojiShow.classList.add('pop');
     
-    // မေးခွန်း ပြောင်း
     document.getElementById('noQuestion').textContent = messages[emojiIndex];
-    
-    // အရေအတွက် ပြ
     document.getElementById('counterText').textContent = `မချစ်ဘူး ${noCount} ခါ နှိပ်ပြီး`;
     
-    // ၁၀ ခါပြည့်ရင် အလိုအလျောက် လက်ခံ
     if (noCount >= 10) {
         setTimeout(() => {
             yesAnswer();
-        }, 1500);
+        }, 1200);
     }
 }
 
