@@ -1,173 +1,167 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For KHWL</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #000;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        .stars {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-        }
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: moveStars linear infinite;
-        }
-        @keyframes moveStars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-100vh); }
-        }
-        .glow {
-            position: fixed;
-            width: 400px; height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,100,200,0.4), transparent 70%);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 4s ease-in-out infinite;
-            z-index: 2;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
-        }
-        .card {
-            position: relative;
-            z-index: 3;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 100, 200, 0.3);
-            border-radius: 20px;
-            padding: 40px 30px;
-            max-width: 450px;
-            margin: 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 60px rgba(255, 100, 200, 0.2);
-            animation: fadeIn 2s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .symbol {
-            font-size: 3em;
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        h1 {
-            font-size: 1.5em;
-            color: #ff6b9d;
-            letter-spacing: 8px;
-            margin: 20px 0 10px;
-            text-transform: uppercase;
-        }
-        .name {
-            font-size: 3.5em;
-            font-weight: bold;
-            background: linear-gradient(90deg, #ff6b9d, #c56cf0, #6bc5ff, #ff6b9d);
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientMove 4s linear infinite;
-            letter-spacing: 5px;
-            margin: 15px 0;
-        }
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
-        }
-        .line {
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #ff6b9d, transparent);
-            margin: 20px auto;
-        }
-        p {
-            font-size: 1.1em;
-            line-height: 2;
-            color: #cccccc;
-        }
-        .highlight {
-            color: #ff6b9d;
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-top: 20px;
-            animation: glowText 2s ease-in-out infinite alternate;
-        }
-        @keyframes glowText {
-            from { text-shadow: 0 0 10px #ff6b9d; }
-            to { text-shadow: 0 0 25px #ff6b9d, 0 0 40px #c56cf0; }
-        }
-        .footer {
-            margin-top: 25px;
-            font-size: 0.9em;
-            color: #888;
-            letter-spacing: 3px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    background: linear-gradient(135deg, #2d0a31, #1a0a2e);
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slide {
+    position: absolute;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 50px 30px;
+    background: rgba(255,182,217,0.08);
+    border: 1px solid rgba(255,107,157,0.3);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 60px rgba(255,107,157,0.3);
+    opacity: 0;
+    transition: opacity 1s ease;
+    display: none;
+}
+.slide.active { opacity: 1; display: block; }
+.emoji {
+    font-size: 5em;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+p { font-size: 1.4em; line-height: 2; color: #f0d0e0; }
+.counter { color: #996688; font-size: 0.85em; letter-spacing: 4px; margin-top: 30px; }
+.countdown {
+    font-size: 6em;
+    color: #ff6b9d;
+    font-weight: bold;
+    animation: pulse 1.2s infinite;
+    text-shadow: 0 0 30px #ff6b9d;
+}
+@keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+.stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
+.star { position:absolute; background:white; border-radius:50%; animation: twinkle 4s infinite; }
+@keyframes twinkle {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+.big-heart { font-size: 7em; animation: beat 1.5s infinite; }
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+.final {
+    font-size: 1.8em;
+    color: #ff6b9d;
+    font-weight: bold;
+    line-height: 1.8;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8);
+}
+</style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    <div class="glow"></div>
+<div class="stars" id="stars"></div>
 
-    <div class="card">
-        <div class="symbol">🌌</div>
-        <h1>Congratulation</h1>
-        <div class="name">KHWL</div>
-        <div class="line"></div>
-        <p>
-            G12 ဆိုတဲ့ တောင်ကုန်းကို<br>
-            အောင်မြင်စွာ ကျော်ဖြတ်နိုင်ခဲ့ပြီ။
-        </p>
-        <p>
-            ဒီနေ့ဟာ မင်းရဲ့ ကြိုးစားမှုတွေရဲ့<br>
-            သက်သေပဲ။
-        </p>
-        <div class="line"></div>
-        <div class="highlight">
-            မင်းရဲ့ အနာဂတ်ဟာ<br>
-            ဒီကြယ်တွေလိုပဲ တောက်ပနေပါစေ ✨
-        </div>
-        <div class="footer">
-            FROM SOMEONE WHO CARES ❤️
-        </div>
-    </div>
+<div class="slide active" id="slide1">
+<div class="emoji">💜</div>
+<p>မင်းကို ချစ်ခွင့်ပန်ချင်တယ်</p>
+<div class="counter">01 / 04</div>
+</div>
 
-    <script>
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 150; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 3;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            star.style.animationDelay = Math.random() * 10 + 's';
-            star.style.opacity = Math.random();
-            starsContainer.appendChild(star);
+<div class="slide" id="slide2">
+<div class="emoji">🌸</div>
+<p>မင်းနဲ့တွေ့ကတည်းက<br>ငါ့ဘဝ ပိုလှလာတယ်</p>
+<div class="counter">02 / 04</div>
+</div>
+
+<div class="slide" id="slide3">
+<div class="emoji">🥺</div>
+<p>ဒီစကားကို ပြောဖို့<br>ငါ အရမ်းကြောက်ခဲ့တယ်</p>
+<div class="counter">03 / 04</div>
+</div>
+
+<div class="slide" id="slide4">
+<div class="emoji">💌</div>
+<p>ဒါပေမယ့် အခု<br>ပြောတော့မယ်နော်</p>
+<div class="counter">04 / 04</div>
+</div>
+
+<div class="slide" id="slide5">
+<p style="font-size:1.2em; color:#ff6b9d;">အသင့်ပြင်ထားလိုက်...</p>
+<div class="countdown" id="countdown">3</div>
+</div>
+
+<div class="slide" id="slide6">
+<div class="big-heart">❤️</div>
+<p class="final">
+ငါ မင်းကို ချစ်တယ်<br>
+ချစ်ခွင့်ပန်ပါတယ် 💜
+</p>
+</div>
+
+<script>
+const stars = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 4 + 's';
+    stars.appendChild(star);
+}
+
+let current = 1;
+const total = 4;
+
+function next() {
+    if (current <= total) {
+        document.getElementById('slide' + current).classList.remove('active');
+        current++;
+        if (current <= total) {
+            document.getElementById('slide' + current).classList.add('active');
+            setTimeout(next, 3000);
+        } else {
+            document.getElementById('slide5').classList.add('active');
+            countdown();
         }
-    </script>
+    }
+}
+
+function countdown() {
+    let c = 3;
+    const el = document.getElementById('countdown');
+    const iv = setInterval(() => {
+        c--;
+        if (c > 0) {
+            el.textContent = c;
+        } else {
+            clearInterval(iv);
+            document.getElementById('slide5').classList.remove('active');
+            document.getElementById('slide6').classList.add('active');
+        }
+    }, 1500);
+}
+
+setTimeout(next, 3000);
+</script>
+
 </body>
 </html>
