@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>မေးခွန်းလေး</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    background: linear-gradient(135deg, #2d0a31, #1a0a2e);
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slide {
+    position: absolute;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 50px 30px;
+    background: rgba(255,182,217,0.08);
+    border: 1px solid rgba(255,107,157,0.3);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 60px rgba(255,107,157,0.3);
+    opacity: 0;
+    transition: opacity 1s ease;
+    display: none;
+}
+.slide.active { opacity: 1; display: block; }
+.big-heart { font-size: 6em; animation: beat 1.5s infinite; margin-bottom: 20px; }
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+.question {
+    font-size: 1.8em;
+    color: #ff6b9d;
+    font-weight: bold;
+    line-height: 1.8;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8);
+    margin-bottom: 30px;
+}
+.btn {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+}
+.btn:active { transform: scale(0.95); }
+.btn-yes {
+    background: linear-gradient(90deg, #ff6b9d, #c56cf0);
+    color: white;
+    box-shadow: 0 5px 20px rgba(197,108,240,0.4);
+}
+.btn-no {
+    background: rgba(255,255,255,0.1);
+    color: #aaa;
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+}
+.sad {
+    font-size: 4em;
+    margin: 15px 0;
+    animation: shake 0.5s infinite;
+}
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+.stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; overflow:hidden; }
+.star { position:absolute; background:white; border-radius:50%; animation: twinkle 4s infinite; }
+@keyframes twinkle {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+.final {
+    font-size: 1.8em;
+    color: #ff6b9d;
+    font-weight: bold;
+    line-height: 1.8;
+    text-shadow: 0 0 20px rgba(255,107,157,0.8);
+}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<div class="slide active" id="slide1">
+<div class="big-heart">💜</div>
+<div class="question">မင်း ငါ့ကို ချစ်လား?</div>
+<button class="btn btn-yes" onclick="yesAnswer()">ချစ်တယ် 💕</button>
+<button class="btn btn-no" id="noBtn" onclick="noAnswer()">မချစ်ဘူး</button>
+</div>
+
+<div class="slide" id="slideNo">
+<div class="sad">😢</div>
+<div class="question">မချစ်ဘူးလား? 🥺</div>
+<p style="font-size:1.2em; color:#f0d0e0;">ငါ အရမ်းစိတ်မကောင်းဖြစ်သွားတယ်...</p>
+<div class="sad">💔</div>
+<button class="btn btn-yes" onclick="yesAnswer()">အိုကေ... ချစ်တယ်ပါ 💜</button>
+</div>
+
+<div class="slide" id="slideYes">
+<div class="big-heart">💖</div>
+<div class="final">
+ကျေးဇူးတင်ပါတယ် 💜<br>
+ငါလည်း မင်းကို ချစ်တယ်
+</div>
+</div>
+
+<script>
+const stars = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 4 + 's';
+    stars.appendChild(star);
+}
+
+// "မချစ်ဘူး" ခလုတ်ကို နှိပ်လို့မရအောင် လုပ်ခြင်း
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mouseover', moveButton);
+noBtn.addEventListener('touchstart', moveButton);
+noBtn.addEventListener('click', moveButton);
+
+function moveButton() {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function noAnswer() {
+    document.getElementById('slide1').classList.remove('active');
+    document.getElementById('slideNo').classList.add('active');
+}
+
+function yesAnswer() {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.getElementById('slideYes').classList.add('active');
+}
+</script>
+</body>
+</html>
